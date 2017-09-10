@@ -11,3 +11,16 @@
 		      "ヒラガナ is a type of kana")
 	)
 
+;; wanakana-katakana-to-hiragana
+;; katakana only
+(assert (string-equal (wanakana-katakana-to-hiragana "カタカナ")
+		      "かたかな"))
+;; katakana and alphabet
+(assert (string-equal (wanakana-hiragana-to-katakana
+		       "カタカナ is a type of kana")
+		      "かたかな is a type of kana"))
+;; "ー"のデコード(読み仮名的な利用法か)
+;; "お"の後の長音が"う"になるのは意図的
+(assert (string-equal (wanakana-hiragana-to-katakana
+		       "オートミール")
+		      "おうとみいる"))
