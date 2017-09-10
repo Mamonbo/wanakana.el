@@ -574,4 +574,13 @@
     )
   )
 
+(defun wakakana-hiragana-to-katakana (mozi)
+  "
+ひらがなをカタカナに変換する
+互換性のために用意してあるが、バッテリー付属案件
+"
+  (japanese-hiragana mozi)
+  )
+
+
 (provide 'wanakana)
