@@ -1,4 +1,4 @@
-(defvar wanakana-long-vowels-cell
+(defvar wanakana-long-vowels-cell-list
   '(
     ("a". "あ")
     ("i". "い")
@@ -323,6 +323,29 @@
     )
   )
 
+(defvar wanakana-zenkaku-yakumono-list
+  '(
+  "　"
+  "！"
+  "？"
+  "。"
+  "："
+  "・"
+  "、"
+  "〜"
+  "ー"
+  "「"
+  "」"
+  "『"
+  "』"
+  "［"
+  "］"
+  "（"
+  "）"
+  "｛"
+  "｝"
+  )
+  )
 ;;最後にある"んあ"などに関して from-romaji と非対称なので
 ;;一々定義する
 (defvar wanakana-to-romaji-cell-list
@@ -574,12 +597,12 @@
     )
   )
 
-(defun wakakana-hiragana-to-katakana (mozi)
+(defun wakakana-hiragana-to-katakana (hira)
   "
 ひらがなをカタカナに変換する
 互換性のために用意してあるが、バッテリー付属案件
 "
-  (japanese-hiragana mozi)
+  (japanese-katakana hira)
   )
 
 (defun wanakana-hiraganap (mozir)
