@@ -1,3 +1,6 @@
+(require 'wanakana-private)
+(require 'cl-lib)
+
 (defvar wanakana-long-vowels-cell-list
   '(
     ("a". "あ")
@@ -597,13 +600,15 @@
     )
   )
 
-(defun wakakana-hiragana-to-katakana (hira)
+(defun wanakana-hiragana-to-katakana (hira)
   "
 ひらがなをカタカナに変換する
 互換性のために用意してあるが、バッテリー付属案件
 "
   (japanese-katakana hira)
   )
+
+(require 'wanakana-katakana-to-hiragana)
 
 (defun wanakana-hiraganap (mozir)
   (loop for ch in (wanakana-private-make-itrator mozir)
