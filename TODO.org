@@ -1,0 +1,20 @@
+#+TITLE: 実装状況
+
+[[http://wanakana.com/docs/global.html][wanakana.js公式ドキュメント] より
+
+* TODO bind
+* TODO unbind
+* TODO onCompositionUpdate
+* TODO isHiragana
+* TODO isJapanese
+* TODO isKana
+* TODO isKanji
+* TODO isKatakana
+* TODO isMixed
+* TODO isRomaji
+* TODO stripOkurigana
+* TODO toHiragana
+* TODO toKana
+* TODO toKatakana
+* TODO toRomaji
+* TODO tokenize
