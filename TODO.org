@@ -1,6 +1,6 @@
 #+TITLE: 実装状況
 
-[[http://wanakana.com/docs/global.html][wanakana.js公式ドキュメント] より
+[[http://wanakana.com/docs/global.html][wanakana.js公式ドキュメント]] より
 
 * TODO bind
 * TODO unbind
