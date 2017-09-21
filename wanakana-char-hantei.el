@@ -48,4 +48,32 @@
 (defun wanakana-char-kanjip (ch)
   (wanakana-private-betweenp ch "4E00" "9FAF")
   )
+
+(defun wanakana-char-japanesep (ch)
+  (or
+   ;; ひらがな
+   ;; カタカナ
+   ;; 句読点
+   ;; 半角カナ
+   (wanakana-char-kanap ch)
+   ;; 句読点
+   (wanakana-private-betweenp ch "3000" "303F")
+   (wanakana-private-betweenp ch "30FB" "30FC")
+   ;; 全角句読点いろいろ(ZENKAKU_PUNCTUATION)
+   (wanakana-private-betweenp ch "FF01" "FF0F")
+   (wanakana-private-betweenp ch "FF1A" "FF1F")
+   (wanakana-private-betweenp ch "FF3B" "FF3F")
+   (wanakana-private-betweenp ch "FF5B" "FF60")
+   ;; 全角通貨記号
+   (wanakana-private-betweenp ch "FFE0" "FFEE")
+   ;; その他
+   ;; 半角算用数字
+   (wanakana-private-betweenp ch "0030" "0039")
+   ;; 全角算用数字
+   (wanakana-private-betweenp ch "FF10" "FF19")
+   
+   (wanakana-private-betweenp ch "4E00" "9FFF")
+   (wanakana-private-betweenp ch "3400" "4DBF")
+   )
+  )
 (provide 'wanakana-char-hantei)

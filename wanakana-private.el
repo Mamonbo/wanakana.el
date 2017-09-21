@@ -3,7 +3,7 @@
   )
 
 (defun wanakana-private-betweenp (ch lower-hex-string upper-hex-string)
-  (let ((chnum (string-to-char))
+  (let ((chnum (string-to-char ch))
 	(lower-num (string-to-number lower-hex-string 16))
 	(upper-num (string-to-number upper-hex-string 16))
 	)

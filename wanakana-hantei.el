@@ -34,7 +34,7 @@
 	)
   )
 
-(defun wanakana-char-kanjip (mozir)
+(defun wanakana-kanjip (mozir)
   (loop for ch in (wanakana-private-make-itrator mozir)
 	always
 	(wanakana-char-kanjip ch)

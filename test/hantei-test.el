@@ -36,9 +36,9 @@
 
 ;; wanakana-katakanap
 (assert (wanakana-katakanap "ゲーム"))
-(assert (not (wanakana-katakanap "あ"))
-(assert (not (wanakana-katakanap "A"))
-(assert (not (wanakana-katakanap "あア"))
+(assert (not (wanakana-katakanap "あ")))
+(assert (not (wanakana-katakanap "A")))
+(assert (not (wanakana-katakanap "あア")))
 
 ;; wanakana-kanjip
 (assert (wanakana-kanjip "刀"))
