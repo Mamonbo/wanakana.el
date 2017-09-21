@@ -8,9 +8,6 @@
 	(wanakana-char-hiraganap ch)
 	)
   )
-(defun wanakana-is-hiragana (mozir)
-  (wanakana-hiraganap mozir)
-  )
 
 
 (defun wanakana-katakanap (mozir)
@@ -75,4 +72,32 @@
     )
   )
 ;; alliases
+(defun wanakana-is-hiragana (mozir)
+  (wanakana-hiraganap mozir)
+  )
+
+(defun wanakana-is-katakana (mozir)
+  (wanakana-katakanap mozir)
+  )
+
+(defun wanakana-is-kana (mozir)
+  (wanakana-kanap mozir)
+  )
+
+(defun wanakana-is-romaji (mozir)
+  (wanakana-romajip mozir)
+  )
+
+(defun wanakana-is-kanji (mozir)
+  (wanakana-kanjip mozir)
+  )
+
+(defun wanakana-is-japanese (mozir)
+  (wanakana-japanesep mozir)
+  )
+
+(defun wanakana-is-mixed (mozir)
+  (wanakana-mixedp mozir)
+  )
+
 (provide 'wanakana-hantei)
