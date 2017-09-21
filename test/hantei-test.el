@@ -48,6 +48,10 @@
 (assert (not (wanakana-kanjip "🦀"))) ; 蟹の絵文字
 
 ;; wanakana-mixedp
+;; ローマ字とかなが含まれているかどうか
+;; 第2引数で漢字を許可するかを指定する
+(assert (wanakana-mixedp "ラマーズP" t))
+
 (assert (wanakana-mixedp "Abあア"  t))
 (assert (wanakana-mixedp "お腹A" t))
 (assert (not (wanakana-mixedp "お腹A"  nil)))
