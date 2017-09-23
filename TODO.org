@@ -14,7 +14,23 @@
 * DONE isRomaji
 * TODO stripOkurigana
 * TODO toHiragana
-* TODO toKana
+* STARTED toKana
+** STARTED CharUppercasep
+   実装はした
+
+   テストを通していない
+** TODO getChunk
+** TODO getChunkSize
+** STARTED CharConsonantp
+   実装はした
+
+   テストを通していない
+** STARTED CharVowelp
+   実装はした
+
+   テストを通していない
+** DONE hiragana-to-katakana
+** DONE kanap
 * TODO toKatakana
 * TODO toRomaji
 * TODO tokenize

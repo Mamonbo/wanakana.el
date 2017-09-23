@@ -76,4 +76,37 @@
    (wanakana-private-betweenp ch "3400" "4DBF")
    )
   )
+
+(defun wanakana-char-uppercasep (ch)
+  (wanakana-private-betweenp ch "0041" "005A")
+  )
+
+(defun wanakana-char-lowercasep (ch)
+  (wanakana-private-betweenp ch "0061" "007A")
+  )
+
+(defun wanakana-char-vowelp (ch include-y)
+  "与えられた文字が英語での母音であるか include-y を真にするとyも母音として判定する case insensitive"
+  (let ((lo (downcase ch)))
+    (if (and include-y (string-equal lo "y"))
+	t
+      (and
+       (wanakana-char-lowercasep lo)
+       (member lo wanakana-long-vowels-cell-list)
+       )
+      )
+    )
+  )
+
+(defun wanakana-char-consonatp (ch include-y)
+  "与えられた文字が英語での子音であるか include-y を真にするとyも子音として判定する case insesitive"
+  (let ((lo (downcase ch))
+	)
+    (and
+     (wanakana-char-lowercasep lo)
+     (not (wanakana-char-vowelp lo (not include-y)))
+     )
+    )
+  )
+
 (provide 'wanakana-char-hantei)
