@@ -600,6 +600,13 @@
     )
   )
 
+(defvar wanakana-four-char-edgecases-list
+  '(
+    "lts"
+    "chy"
+    "shy"
+    )
+  )
 (defun wanakana-hiragana-to-katakana (hira)
   "
 ひらがなをカタカナに変換する
@@ -607,6 +614,8 @@
 "
   (japanese-katakana hira)
   )
+
+(defvar wanakana-IME-mode nil)
 
 (require 'wanakana-katakana-to-hiragana)
 (require 'wanakana-hantei)
