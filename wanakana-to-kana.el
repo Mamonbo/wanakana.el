@@ -4,13 +4,11 @@
 (defun wanakana-chunk-to-kana (mozir)
   "wanakana-to-kana本体から呼び、chunkの候補を貰い、拾う文字数とひらが
   なのリストを返す 貰ったチャンクが駄目でも、後ろを切ったので再び探索
-  する"
+  する 小文字で来ることを前提にしている"
   ;; 4文字チャンクの処理(ltsu,chya,shya など)
   (let* ((chunk-size (length mozir))
-	 (chunk-lowercase (downcase mozir))
-	 (chunk-lowercase-list (wanakana-private-make-itrator chunk-lowercase))
-	 (kana-char "")
 	 (input-list (wanakana-private-make-itrator mozir))
+	 (kana-char "")
 	 (precheck t)
 	 )
     (if (= chunk-size 4)
@@ -24,17 +22,17 @@
 	;; 一般的なIMEで使える "nn" での "ん" は使用出来ず
 	;; 例えば "nna" は "んな" と表示される
 	;; 代わりに "n'" と入力する
-	(when (string-equal (car chunk-lowercase-list) "n")
+	(when (string-equal (car input-list) "n")
 	  (cond ((= chunk-size 2)
 		 ;; IME mode でないときに、"n "のときは"ん "にする
 		 (when (and (not wanakana-IME-mode)
-			    (string-equal (cadr chunk-lowercase-list) " "))
+			    (string-equal (cadr input-list) " "))
 		   (setq kana-char "ん ")
 		   (setq do-normal-check nil)
 		   )
 		 ;; IME mode のときに、"n'" のときは "ん" にする
 		 (when (and wanakana-IME-mode
-			    (string-equal chunk-lowercase "n'"))
+			    (string-equal mozir "n'"))
 		   (setq kana-char "ん")
 		   (setq do-normal-check nil)
 		   )
@@ -42,10 +40,10 @@
 		((= chunk-size 3)
 		 ;; nn + 母音 のエッジケース を書くとしたらここに
 		 (when (and (wanakana-char-consonatp (cadr
-						      chunk-lowercase-list)
+						      input-list)
 						     nil )
 			    (wanakana-char-vowelp (caddr
-						   chunk-lowercase-list)
+						   input-list)
 						  t)
 			    )
 		   (setq kana-char "ん")
@@ -57,12 +55,16 @@
 	  )
 	;; 子音を重ねることで促音を出す
 	;; 変換表に無いので処理をする
+	;; "Ttu" と入力すると、原作では 1,2文字目が違うので、"Tつ" と
+	;; 出力される
+	;; しかし、 "ッつ" の方が自然と思ったので、原作と異なる挙動に
+	;; 変更した
 	(when (and (>= chunk-size 2)
-		   (not (string-equal (car chunk-lowercase-list) "n"))
+		   (not (string-equal (car input-list) "n"))
 		   (wanakana-char-consonatp
-		    (car chunk-lowercase-list) t)
-		   (string-equal (car chunk-lowercase-list)
-				 (cadr chunk-lowercase-list))
+		    (car input-list) t)
+		   (string-equal (car input-list)
+				 (cadr input-list))
 		   )
 	  (setq kana-char "っ")
 	  (setq chunk-size 1)
@@ -73,10 +75,19 @@
 
     (when do-normal-check
       ;; テーブルから探す
-      (setq kana-char (cdr (assoc chunk-lowercase
+      (setq kana-char (cdr (assoc mozir
 				  wanakana-from-romaji-cell-list)))
       )
 
+    ;; 旧仮名に対応
+    (when wanakana-use-obsolete-kana
+      (cond ((string-equal kana-char "うぃ")
+	     (setq kana-char "ゐ"))
+	    ((string-equal kana-char "うぇ")
+	     (setq kana-char "ゑ"))
+	    )
+      )
+    
     (if kana-char
 	(list chunk-sise kana-char)
       (if (= chunk-size 1)
@@ -90,105 +101,42 @@
 				   )))
 	)
       )
+    ;; TODO: IME-mode のときは "n" のときは "ん" と確定させないように
+    ;; する
     )
   )
 
 (defun wanakana-to-kana (mozir &optional ignore-case)
   "ignore-case 有効時には大文字で入力されても、ひらがなにされる"
   ;; STARTED:卑賤しい命令型のコードを関数型にする
-  (let ((kaeshi-kana-list () )
+  (let ((kaeshi "")
 	(input-list (wanakana-private-make-itrator mozir))
+	(input-lower-list  (wanakana-private-make-itrator (downcase mozir)))
 	(input-length (length mozir))
 	(cursor 0)
-	(chunk "")
-	(chunk-lowercase "")
 	(kana-char "")
 	(chunk-size 0)
-	(precheck t)
+	(hiroi nil)
 	)
     (while (< cursor input-length)
-      (setq kana-char "")
-      (setq chunk-size (min 4 (- input-length cursor) ))
-      (while (> chunk-size 0)
-	(setq chunk (wanakana-private-get-chunk
-		     input-list cursor (+ cursor chunk-size)))
-	(setq chunk-lowercase (downcase chunk))
+      
+      (setq hiroi (wanakana-chunk-to-kana
+		   (wanakana-private-get-chunk input-lower-list cursor
+						  (min input-length
+						       (+ cursor 4)) )))
 
-
-	(if (= chunk-size 4)
-	    (let ((consonant (downcase (wanakana-private-get-chunk
-					input-list cursor (+ cursor 3))) ))
-	      (setq do-nomal-check
-		    (member consonant
-			    wanakana-four-char-edgecases-list)
-		    )
-	      )
-	  (progn
-	    ;; n + 子音(yを除く)のとき、"ん"を出して抜ける
-	    (setq do-nomal-check t)
-	    (when (string-equal (car (wanakana-private-make-itrator
-				    chunk-lowercase)) "n")
-	      (when (= chunk-size 2)
-		;; IME mode でないときに、"n "のときは"ん "にする
-		(when (and (not wanakana-IME-mode)
-		     (string-equal (cadr (wanakana-private-make-itrator
-					  chunk-lowercase))
-				   " "))
-		  (setq kana-char "ん ")
-		  (setq do-normal-check nil)
-		  )
-
-		;; IME mode のときに、"n'" のときは "ん" にする
-		(when (and wanakana-IME-mode (string-equal
-					      chunk-lowercase "n'"))
-		  (setq kana-char "ん")
-		  (setq do-normal-check nil)
-		  )
-		)
-	      ;; nn + 母音 のエッジケース
-	      (when (and (wanakana-char-consonatp
-			  (cadr (wanakana-private-make-itrator
-				 chunk-lowercase)) nil )
-			 (wanakana-char-vowelp
-			  (caddr (wanakana-private-make-itrator
-				  chunk-lowercase)) t ))
-		(setq chnuk-size 1)
-		(setq chunk )
-		  )
-	      )
-	    )
-	  )
-
-	(when do-normal-check
-	  
-	  )
-	(if (string-equal kana-char "")
-	    ;; fail
-	    (if (= chunk-size 4)
-		(setq chunk-size 2)
-	      (setq chunk-size (1- chunk-size))
-	      )
-	  ;; success
-	  (setq chunk-size -1)
+      (setq kana-char (cadr hiroi))
+      ;; 1文字目が大文字だったら、カタカナにする
+      (when (not ignore-case)
+	(when (wanakana-char-uppercasep (nth cursor input-list))
+	  (setq kana-char (wanakana-to-katakana kana-char))
 	  )
 	)
 
-      ;; 最後まで駄目だったら、仕方無いのでアルファベットのまま表示す
-      ;; る
-      (when (kana-char "")
-	(setq kana-char chunk)
-	)
-
-      ;; 旧仮名に対応
-      (when wanakana-use-obsolete-kana
-	(cond ((string-equal chunk-lowercase "wi")
-	       (setq kana-char "ゐ"))
-	      ((string-equal chunk-lowercase "we")
-	       (setq kana-char "ゑ"))
-	      )
-	)
+      (setq kaeshi (concat kaeshi-kana kana-char))
+      (setq cursor (+ cursor (car hiroi)))
       )
-    (apply 'concat kaeshi-kana-list)
+    kaeshi
     )
   )
 
