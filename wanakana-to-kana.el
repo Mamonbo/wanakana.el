@@ -73,6 +73,8 @@
 
     (when do-normal-check
       ;; テーブルから探す
+      (setq kana-char (cdr (assoc chunk-lowercase
+				  wanakana-from-romaji-cell-list)))
       )
 
     (if kana-char
