@@ -13,13 +13,13 @@
 * DONE isMixed
 * DONE isRomaji
 * TODO stripOkurigana
-* STARTED toHiragana
-* STARTED toKana
+* DONE toHiragana
+* DONE toKana
 実装した
 
 テストを通した
-** TODO ignore-case
-~ignore-case~ に関するテストを書いていない
+** DONE ignore-case
+~ignore-case~ に関しては、 ~wanakana-to-hiragana~ によって確認した
 ** STARTED CharUppercasep
    実装はした
 
@@ -40,7 +40,7 @@
    テストを通していない
 ** DONE hiragana-to-katakana
 ** DONE kanap
-* STARTED toKatakana
+* DONE toKatakana
 * TODO toRomaji
   ローマ字へのデコードなので、新規にコードを書く必要がある
 * TODO tokenize
