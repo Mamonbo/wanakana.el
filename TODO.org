@@ -14,16 +14,20 @@
 * DONE isRomaji
 * TODO stripOkurigana
 * TODO toHiragana
-* STARTED toKana
+* DONE toKana
 実装した
 
-テストが必要
+テストを通した
 ** STARTED CharUppercasep
    実装はした
 
    テストを通していない
-** TODO getChunk
-** TODO getChunkSize
+** DONE getChunk
+   ~wanakana-private-get-chunk~ で実装した
+
+   テストを作っていないが、それ程でも無いと判断した
+** DEFERRED getChunkSize
+中身がそれ程でも無かったので、ベタ書きした
 ** STARTED CharConsonantp
    実装はした
 

@@ -8,8 +8,9 @@
   ;; 4文字チャンクの処理(ltsu,chya,shya など)
   (let* ((chunk-size (length mozir))
 	 (input-list (wanakana-private-make-itrator mozir))
-	 (kana-char "")
+	 (kana-char nil)
 	 (precheck t)
+	 (do-normal-check t)
 	 )
     (if (= chunk-size 4)
 	(let ((consonant (wanakana-private-get-chunk input-list 0 3)))
@@ -89,14 +90,16 @@
       )
     
     (if kana-char
-	(list chunk-sise kana-char)
+	(list chunk-size kana-char)
       (if (= chunk-size 1)
 	  ;; どうにも見付からないときは素通りさせる
 	  (list 1 mozir)
 	;; 1 文字減らして再探索する
 	(wanakana-chunk-to-kana (wanakana-private-get-chunk
 				 input-list 0
-				 (if (= chunk-size 4) (- chunk-size 2)
+				 (if (and (= chunk-size 4)
+					  do-normal-check)
+				     (- chunk-size 2)
 				   (1- chunk-size)
 				   )))
 	)
@@ -106,7 +109,6 @@
 
 (defun wanakana-to-kana (mozir &optional ignore-case)
   "ignore-case 有効時には大文字で入力されても、ひらがなにされる"
-  ;; STARTED:卑賤しい命令型のコードを関数型にする
   (let ((kaeshi "")
 	(input-list (wanakana-private-make-itrator mozir))
 	(input-lower-list  (wanakana-private-make-itrator (downcase mozir)))
@@ -148,11 +150,11 @@
       ;; 1文字目が大文字だったら、カタカナにする
       (when (not ignore-case)
 	(when (wanakana-char-uppercasep (nth cursor input-list))
-	  (setq kana-char (wanakana-to-katakana kana-char))
+	  (setq kana-char (wanakana-hiragana-to-katakana kana-char))
 	  )
 	)
 
-      (setq kaeshi (concat kaeshi-kana kana-char))
+      (setq kaeshi (concat kaeshi kana-char))
       (setq cursor (+ cursor (car hiroi)))
       )
     kaeshi

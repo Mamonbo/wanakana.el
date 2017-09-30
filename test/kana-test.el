@@ -12,6 +12,6 @@
 
 (let
     ((wanakana-use-obsolete-kana t))
-  (assert (string-equal (wanakana-to-kana "we") "ゑ"))  
+  (assert (string-equal (wanakana-to-kana "we") "ゑ"))
   )
 

@@ -615,7 +615,9 @@
   (japanese-katakana hira)
   )
 
+;; 標準設定(グローバル変数)
 (defvar wanakana-IME-mode nil)
+(defvar wanakana-use-obsolete-kana nil)
 
 (require 'wanakana-katakana-to-hiragana)
 (require 'wanakana-hantei)
