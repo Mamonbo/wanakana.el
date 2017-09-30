@@ -7,8 +7,8 @@
 			"トウキョウ、 オオサカ"))
   (assert (string-equal (wanakana-to-katakana "only かな" t)
 			"only カナ"))
-  (assert (string-equal (wanakana-to-kana "wi") "ウィ"))
+  (assert (string-equal (wanakana-to-katakana "wi") "ウィ"))
 
   (setq wanakana-use-obsolete-kana t)
-  (assert (string-equal (wanakana-to-kana "wi") "ヰ"))
+  (assert (string-equal (wanakana-to-katakana "wi") "ヰ"))
   )

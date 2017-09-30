@@ -9,14 +9,14 @@
 (defun wanakana-to-hiragana (mozir &optional pass-romaji)
   (cond
    (pass-romaji (wanakana-katakana-to-hiragana mozir))
-   ((wanakana-romajip mozir) (wanakana-romaji-tohiragana mozir))
-   ((wanakana-mixedp t)
+   ((wanakana-romajip mozir) (wanakana-romaji-to-hiragana mozir))
+   ((wanakana-mixedp mozir t)
     (wanakana-romaji-to-hiragana (wanakana-katakana-to-hiragana
-				  mozir))
-    (t (wanakana-katakana-to-hiragana mozir))
-    )
-   
+				  mozir)))
+   (t (wanakana-katakana-to-hiragana mozir))
    )
+   
   )
+
 
 (provide 'wanakana-to-hiragana)
