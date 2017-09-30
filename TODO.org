@@ -13,7 +13,7 @@
 * DONE isMixed
 * DONE isRomaji
 * TODO stripOkurigana
-* TODO toHiragana
+* STARTED toHiragana
 * STARTED toKana
 実装した
 
@@ -40,6 +40,7 @@
    テストを通していない
 ** DONE hiragana-to-katakana
 ** DONE kanap
-* TODO toKatakana
+* STARTED toKatakana
 * TODO toRomaji
+  ローマ字へのデコードなので、新規にコードを書く必要がある
 * TODO tokenize
