@@ -14,10 +14,12 @@
 * DONE isRomaji
 * TODO stripOkurigana
 * TODO toHiragana
-* DONE toKana
+* STARTED toKana
 実装した
 
 テストを通した
+** TODO ignore-case
+~ignore-case~ に関するテストを書いていない
 ** STARTED CharUppercasep
    実装はした
 
