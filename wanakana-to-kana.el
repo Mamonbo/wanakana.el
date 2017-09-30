@@ -136,7 +136,7 @@
 	       (and
 		(string-equal (nth (1+ cursor) input-lower-list) "y")
 		(not (wanakana-char-vowelp (nth (+ cursor 2)
-					   input-lower-list) nil ))
+					   input-lower-list) t))
 		)
 	       ;; カーソル戻して途中に "n" と入力したとき
 	       (wanakana-char-kanap (nth (1+ cursor) input-lower-list))
