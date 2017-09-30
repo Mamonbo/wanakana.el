@@ -1,0 +1,19 @@
+#+AUTHOR: mamonbo
+
+* Abstruct
+実装する際に説明の必要な要素について解説をする
+* IME mode
+[[http://wanakana.com/docs/global.html][公式ドキュメント]] によると
+によると入力欄に ~to-hiragana~ をバインドすることにより入力した傍から変
+換されるようになる。しかしながら、"ny" を打っている傍から "んy" とされ
+ると困るので、そこらへんの配慮もされている。
+このときのために ~to-hiragana~ に知らせるモードが IME mode である。
+
+* "ん" のみの入力について
++ nn("n+n+母音" のときは "ん+(な行)" となるように意図的にしてある)
+[[https://github.com/WaniKani/WanaKana/blob/master/src/toKana.js#L79][
+ソースコード]]
+[[https://github.com/WaniKani/WanaKana/issues/54][参考文献]]
++ n'(IME mode時のみ)
++ n (スペース付きでスペース無しの"ん"が出力される IME mode時のみ)
++ xn
