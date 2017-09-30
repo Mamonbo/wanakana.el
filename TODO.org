@@ -15,6 +15,9 @@
 * TODO stripOkurigana
 * TODO toHiragana
 * STARTED toKana
+実装した
+
+テストが必要
 ** STARTED CharUppercasep
    実装はした
 

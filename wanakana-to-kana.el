@@ -101,8 +101,6 @@
 				   )))
 	)
       )
-    ;; TODO: IME-mode のときは "n" のときは "ん" と確定させないように
-    ;; する
     )
   )
 
@@ -125,7 +123,28 @@
 						  (min input-length
 						       (+ cursor 4)) )))
 
+      ;; IME mode では一部の条件で "n" を入力した傍から "ん" 変換され
+      ;; るのを防止する
+      (when (and wanakana-IME-mode
+		 (string-equal (nth cursor input-lower-list) "n"))
+	(when (or
+	       ;; カーソルの末端のとき
+	       (= cursor (1- input-length))
+	       ;; "ny" で入力途中のとき
+	       (and
+		(string-equal (nth (1+ cursor) input-lower-list) "y")
+		(not (wanakana-char-vowelp (nth (+ cursor 2)
+					   input-lower-list) nil ))
+		)
+	       ;; カーソル戻して途中に "n" と入力したとき
+	       (wanakana-char-kanap (nth (1+ cursor) input-lower-list))
+	       )
+	  ;; hiroi を偽装する
+	  (setq hiroi '("n" 1))
+	  )
+	)
       (setq kana-char (cadr hiroi))
+      
       ;; 1文字目が大文字だったら、カタカナにする
       (when (not ignore-case)
 	(when (wanakana-char-uppercasep (nth cursor input-list))
