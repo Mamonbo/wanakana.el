@@ -41,6 +41,8 @@
 ** DONE hiragana-to-katakana
 ** DONE kanap
 * DONE toKatakana
-* TODO toRomaji
+* WAIT toRomaji
   ローマ字へのデコードなので、新規にコードを書く必要がある
+
+  促音の処理で明らかにしたい点があるので、暫く放置
 * TODO tokenize
